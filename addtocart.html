@@ -1,0 +1,89 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YOUR CART PAGE</title>
+    <link rel="stylesheet" href="assignment(B).css">
+</head>
+
+<body>
+    <div class="full-page">
+        <header>
+            <div class="container">
+                <div class="logo">
+                    <p>MY COMPUTER ACCESSORIES SHOP</p> 
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="home.html">HOME</a></li>
+                        <li><a href="products.html">PRODUCTS</a></li>
+                        <li><a href="addtocart.html">YOUR CARTS</a></li>
+                        <li><a href="contact.html">CONTACTS</a></li>
+                        <li><a href="mainpage.html">LOG OUT</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+        <center>
+            <div class="class1"> 
+                <div class="title">YOUR SHOPPING CART</div> 
+                <br><br>                       
+                <div id="cartItems">
+                    <!-- Cart items will be displayed here -->
+                </div>
+                <div id="total">
+                    <!-- Total price will be displayed here -->
+                </div>
+                <br>
+                <div class="button">
+                    <input type="submit" onclick="clearCart()" value="CLEAR CART">
+                    <input type="submit" onclick="goToPayment()" value="PROCEED TO PAYMENT">
+                </div>                               
+            </div>
+        </center>
+    </div>
+    <script>
+        // Display the cart items
+        function displayCart() {
+            const cartItemsContainer = document.getElementById('cartItems');
+            const totalContainer = document.getElementById('total');
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = 'Your cart is empty.';
+                totalContainer.innerHTML = '';
+            } else {
+                let total = 0;
+                cartItemsContainer.innerHTML = '';
+                
+                cart.forEach(item => {
+                    const itemElement = document.createElement('div');
+                    itemElement.textContent = `${item.name} - RM${item.price} x ${item.quantity}`;
+                    cartItemsContainer.appendChild(itemElement);
+                    total += item.price * item.quantity;
+                });
+
+                totalContainer.innerHTML = `Total: RM${total}`;
+            }
+        }
+
+        // Clear the cart
+        function clearCart() {
+            localStorage.removeItem('cart');
+            displayCart();
+        }
+
+        // Direct to payment page
+        function goToPayment() {
+            if (JSON.parse(localStorage.getItem('cart')).length === 0) {
+                alert("Your cart is empty. Please add items to the cart before proceeding.");
+            } else {
+                window.location.href = "payment.html";  // Direct to payment page
+            }
+        }
+
+        // Initialize cart display
+        displayCart();
+    </script>
+</body>
+</html>
